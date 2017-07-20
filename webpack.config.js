@@ -8,6 +8,7 @@ var config = {
      */
     entry: ["./src/app.tsx"],
 
+    devtool: "inline-source-map",
     /*
      * The combination of path and filename tells Webpack what name to give to
      * the final bundled JavaScript file and where to store this file.

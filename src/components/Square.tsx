@@ -1,30 +1,33 @@
 
 import * as React from "react";
+import { connect } from 'react-redux';
+import {Store} from "../store/index";
+import { incrementCounter } from "../actions";
+import {EventHandler} from "react";
 
 interface SquareProps {
-    value: number;
+    value?: number;
+    handleClick?: EventHandler<any>;
 }
 
-class Square extends React.Component<SquareProps, SquareProps> {
 
-    constructor(props: SquareProps, context: any) {
-        super(props, context);
-        this.state = this.props;
-
-        this.handleClick = this.handleClick.bind(this);
+function mapStateToProps(state: Store.Counter):SquareProps {
+    return {
+        value: state.value
     }
+}
 
-    handleClick() {
-        this.setState((prevState) => {
-            prevState.value ++;
-
-            return prevState;
-        });
+function mapDispatchToProps(dispatch:Function):SquareProps {
+    return {
+        handleClick: () => dispatch(incrementCounter(1))
     }
+}
 
+
+class Square extends React.Component<SquareProps, any> {
     render() {
-        return <div className="square" onClick = { this.handleClick }>{this.state.value}</div>;
+        return <div className="square" onClick = { this.props.handleClick }>{this.props.value}</div>;
     }
 }
 
-export default Square;
+export default connect(mapStateToProps, mapDispatchToProps)(Square);
